@@ -1,6 +1,8 @@
-const app = require("express")();
+const express = require("express");
+const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
+const path = require("path");
 const { matchUser, getRooms, removeUser } = require("./users");
 
 const PORT = process.env.PORT || 3000;
@@ -37,6 +39,12 @@ io.on("connection", socket => {
 setInterval(() => {
   console.log(getRooms());
 }, 2000);
+
+// Serve frontend
+
+const path = path.join(__dirname, "client", dist);
+
+app.use(express.static(path));
 
 server.listen(PORT, () => {
   console.log(`Server listening, port: ${PORT}`);
