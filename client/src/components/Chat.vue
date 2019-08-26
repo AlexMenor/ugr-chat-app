@@ -4,7 +4,7 @@
       <v-col cols="12" xl="4">
         <v-card height="500px" class="card">
           <v-toolbar flat color="primary" dark>Estás hablando con "{{him.name}}"</v-toolbar>
-          <div class="chat-box">
+          <div class="chat-box" ref="chatBox">
             <v-list>
               <v-list-item v-for="message in messages" :key="message.timestamp">
                 <app-message
@@ -65,13 +65,25 @@ export default {
       socket.emit("message", { ...message, to: this.him.id }, () => {
         this.messages.push({ ...message, isMine: true });
       });
+    },
+    fixScrollBottom() {
+      const chatBox = this.$refs.chatBox;
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
   },
   filters: {
     timestampToTime(timestamp) {
       const date = new Date(timestamp);
-      return `${date.getHours().toString()}:${date.getMinutes().toString()}`;
+      const hours = date.getHours().toString();
+      let minutes = date.getMinutes().toString();
+
+      if (minutes.length === 1) minutes = "0" + minutes;
+
+      return `${hours}:${minutes}`;
     }
+  },
+  updated() {
+    this.fixScrollBottom();
   }
 };
 </script>

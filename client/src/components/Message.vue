@@ -1,9 +1,10 @@
 <template>
-  <div class="message-relative">
-    <div :class="{'rounded-message':true, 'right-side-message':mine}">
-      <slot></slot>
-      <br />
-      <span class="message-time">{{time}}</span>
+  <div :class="{'message-container':true, 'right-side-message':mine}">
+    <div class="rounded-message">
+      <p>
+        <slot></slot>
+      </p>
+      <span class="msg-time">{{time}}</span>
     </div>
   </div>
 </template>
@@ -15,26 +16,24 @@ export default {
 </script>
 
 <style>
-.right-side-message {
-  position: absolute;
-  right: 0px;
-}
 .rounded-message {
-  border: 1px solid rgb(231, 231, 231);
-  border-radius: 10px;
+  border: 1px solid rgb(214, 214, 214);
+  max-width: 80%;
   padding: 10px;
-  line-height: 14px;
-  font-size: 18px;
-  width: 30%;
-  overflow-x: static;
+  border-radius: 15px;
+  margin-top: 10px;
+  line-height: 20px;
 }
-.message-time {
+.msg-time {
+  font-size: 12px;
   color: grey;
-  font-size: 11px;
   float: right;
 }
-.message-relative {
-  position: relative;
+.message-container {
   width: 100%;
+  display: flex;
+}
+.right-side-message {
+  justify-content: flex-end;
 }
 </style>

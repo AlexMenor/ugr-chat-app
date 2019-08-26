@@ -5,24 +5,35 @@
         <v-card>
           <v-card-text>
             <v-form ref="form">
-              <v-text-field label="Nombre" type="text" :rules="rules" autofocus v-model="name"></v-text-field>
-              <v-btn
-                x-large
-                :color="mentor ? 'primary' : 'grey lighten-4'"
-                @click="mentor = true"
-              >MENTOR</v-btn>
-              <v-btn
-                x-large
-                :color="mentor ? 'grey lighten-4' : 'primary'"
-                @click="mentor = false"
-              >NOVATO</v-btn>
+              <v-text-field
+                outlined
+                label="Nombre"
+                type="text"
+                :rules="rules"
+                autofocus
+                v-model="name"
+              ></v-text-field>
+              <div class="role-buttons-container">
+                <v-btn
+                  outlined
+                  x-large
+                  :color="mentor ? 'primary' : 'grey lighten-1'"
+                  @click.stop="mentor = true"
+                >MENTOR</v-btn>
+                <v-btn
+                  outlined
+                  x-large
+                  :color="mentor ? 'grey lighten-1' : 'primary'"
+                  @click.stop="mentor = false"
+                >NOVATO</v-btn>
+              </div>
             </v-form>
           </v-card-text>
-          <v-card-actions>
-            <div>
-              <v-btn @click="join" :loading="loading">Unirse</v-btn>
-            </div>
-          </v-card-actions>
+          <div class="button-align-center">
+            <v-btn fab @click="join" :loading="loading" color="primary" depressed>
+              <v-icon>mdi-check</v-icon>
+            </v-btn>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -65,3 +76,14 @@ export default {
   }
 };
 </script>
+
+<style>
+.role-buttons-container {
+  display: flex;
+  justify-content: space-around;
+}
+.button-align-center {
+  text-align: center;
+  padding-bottom: 20px;
+}
+</style>
