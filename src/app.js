@@ -42,9 +42,13 @@ setInterval(() => {
 
 // Serve frontend
 
-const path = path.join(__dirname, "client", dist);
+const staticPath = path.join(__dirname, "..", "client", "dist");
 
-app.use(express.static(path));
+app.use(express.static(staticPath));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(staticPath, "index.html"));
+});
 
 server.listen(PORT, () => {
   console.log(`Server listening, port: ${PORT}`);
