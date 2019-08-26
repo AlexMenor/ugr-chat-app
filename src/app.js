@@ -9,6 +9,12 @@ const PORT = process.env.PORT || 3000;
 
 io.on("connection", socket => {
   const { id } = socket;
+
+  // Join is an event that happens when the
+  // user sends his name and role form
+  // the frontend and waits for a match
+  // to happen
+
   socket.on("join", (data, callback) => {
     callback();
     matchUser({ ...data, id }).then(match => {
@@ -22,23 +28,25 @@ io.on("connection", socket => {
       }
     });
   });
+
+  // When someone disconnects we remove him from his room
+  // If he's matched we send a disconnect event to his match
+
   socket.on("disconnect", () => {
     removeUser(socket.id).then(hisMatch => {
       if (hisMatch) io.to(hisMatch.id).emit("disconected");
     });
   });
+
+  // When a message is sent to the server
+  // It is sent to his match
+
   socket.on("message", (data, callback) => {
     const { to, msg, timestamp } = data;
     io.to(to).emit("message", { msg, timestamp });
     callback();
   });
 });
-
-//DEBUGGING
-
-setInterval(() => {
-  console.log(getRooms());
-}, 2000);
 
 // Serve frontend
 
@@ -49,6 +57,8 @@ app.use(express.static(staticPath));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(staticPath, "index.html"));
 });
+
+// Listen
 
 server.listen(PORT, () => {
   console.log(`Server listening, port: ${PORT}`);
