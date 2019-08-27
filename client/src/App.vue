@@ -8,6 +8,9 @@
       <v-btn icon @click="$vuetify.theme.dark=!$vuetify.theme.dark">
         <v-icon>mdi-moon-waxing-crescent</v-icon>
       </v-btn>
+      <v-btn icon href="http://github.com/AlexMenor/ugr-chat-app" target="_blank">
+        <v-icon>mdi-github-circle</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-content>
@@ -16,13 +19,21 @@
     <v-footer app>
       Made with &nbsp;
       <v-icon>mdi-heart</v-icon>&nbsp;by&nbsp;
-      <a href="http://twitter.com/alex4menor" :style="{'color':'black'}">@alex4menor</a>
+      <a
+        href="http://twitter.com/alex4menor"
+        :style="{'color':footerLinkColor}"
+      >@alex4menor</a>
     </v-footer>
   </v-app>
 </template>
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+  computed: {
+    footerLinkColor() {
+      return this.$vuetify.theme.dark ? "white" : "black";
+    }
+  }
 };
 </script>

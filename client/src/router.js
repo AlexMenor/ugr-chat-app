@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "./store";
 
 Vue.use(VueRouter);
 
@@ -14,6 +15,16 @@ const router = new VueRouter({
     { path: "/waiting", component: Waiting },
     { path: "/chat", component: Chat }
   ]
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.path === "/chat") {
+    if (store.getters.isMatched) next();
+    else next("/");
+  } else if (to.path === "/waiting") {
+    if (store.getters.hasJoined) next();
+    else next("/");
+  } else next();
 });
 
 export default router;

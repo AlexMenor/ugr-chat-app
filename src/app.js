@@ -34,7 +34,7 @@ io.on("connection", socket => {
 
   socket.on("disconnect", () => {
     removeUser(socket.id).then(hisMatch => {
-      if (hisMatch) io.to(hisMatch.id).emit("disconected");
+      if (hisMatch) io.to(hisMatch).emit("disconected");
     });
   });
 

@@ -7,7 +7,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     me: null,
-    him: null
+    him: null,
+    joined: false
   },
   mutations: {
     setMe(state, me) {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     },
     setHim(state, him) {
       state.him = him;
+    },
+    setJoined(state, bool) {
+      state.joined = bool;
     }
   },
   actions: {
@@ -24,6 +28,20 @@ export default new Vuex.Store({
         context.commit("setHim", match.him);
         resolve();
       });
+    },
+    joined(context) {
+      return new Promise(resolve => {
+        context.commit("setJoined", true);
+        resolve();
+      });
+    }
+  },
+  getters: {
+    isMatched(state) {
+      return state.him !== null;
+    },
+    hasJoined(state) {
+      return state.joined;
     }
   }
 });

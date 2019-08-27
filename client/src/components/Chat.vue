@@ -3,17 +3,19 @@
     <v-row justify="center">
       <v-col cols="12" xl="4">
         <v-card height="500px" class="card">
-          <v-toolbar flat color="primary" dark>Estás hablando con "{{him.name}}"</v-toolbar>
-          <div class="chat-box" ref="chatBox">
-            <v-list>
-              <v-list-item v-for="message in messages" :key="message.timestamp">
-                <app-message
-                  :mine="message.isMine"
-                  :time="message.timestamp | timestampToTime"
-                >{{message.msg}}</app-message>
-              </v-list-item>
-            </v-list>
-          </div>
+          <v-toolbar
+            v-if="!partnerDisconected"
+            flat
+            color="primary"
+            dark
+          >Estás hablando con "{{him.name}}"</v-toolbar>
+          <v-toolbar
+            v-if="partnerDisconected"
+            flat
+            color="grey"
+            dark
+          >"{{him.name}}" se ha desconectado</v-toolbar>
+          <app-chat-box :messages="messages"></app-chat-box>
           <v-container class="input-box">
             <v-row>
               <v-col cols="9">
@@ -34,20 +36,24 @@
 
 <script>
 import socket from "../socketio";
-import appMessage from "./Message.vue";
+import appChatBox from "./ChatBox.vue";
 export default {
   components: {
-    appMessage
+    appChatBox
   },
   data() {
     return {
       messages: [],
-      newMsg: ""
+      newMsg: "",
+      partnerDisconected: false
     };
   },
   mounted() {
     socket.on("message", msg => {
       this.messages.push({ ...msg, isMine: false });
+    });
+    socket.on("disconected", () => {
+      this.partnerDisconected = true;
     });
   },
   computed: {
@@ -65,25 +71,7 @@ export default {
       socket.emit("message", { ...message, to: this.him.id }, () => {
         this.messages.push({ ...message, isMine: true });
       });
-    },
-    fixScrollBottom() {
-      const chatBox = this.$refs.chatBox;
-      chatBox.scrollTop = chatBox.scrollHeight;
     }
-  },
-  filters: {
-    timestampToTime(timestamp) {
-      const date = new Date(timestamp);
-      const hours = date.getHours().toString();
-      let minutes = date.getMinutes().toString();
-
-      if (minutes.length === 1) minutes = "0" + minutes;
-
-      return `${hours}:${minutes}`;
-    }
-  },
-  updated() {
-    this.fixScrollBottom();
   }
 };
 </script>
@@ -99,9 +87,5 @@ export default {
   padding-left: 15px;
   padding-right: 12px;
   padding-bottom: 0px;
-}
-.chat-box {
-  overflow-y: scroll;
-  height: 70%;
 }
 </style>

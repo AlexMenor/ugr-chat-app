@@ -69,7 +69,9 @@ export default {
         this.loading = true;
         socket.emit("join", data, () => {
           this.loading = false;
-          this.$router.push("/waiting");
+          this.$store.dispatch("joined").then(() => {
+            this.$router.push("/waiting");
+          });
         });
       }
     }
