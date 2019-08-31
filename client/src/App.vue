@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <v-app-bar app>
+    <v-app-bar app color="primary" dark>
       <v-toolbar-title class="headline text-uppercase">
-        <span>UGR Chat App</span>
+        <span class="font-weight-bold">UGR Chat App</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon @click="$vuetify.theme.dark=!$vuetify.theme.dark">
@@ -17,8 +17,7 @@
       <router-view></router-view>
     </v-content>
     <v-footer app>
-      Made with &nbsp;
-      <v-icon>mdi-heart</v-icon>&nbsp;by&nbsp;
+      Made by &nbsp;
       <a
         href="http://twitter.com/alex4menor"
         :style="{'color':footerLinkColor}"
@@ -37,3 +36,9 @@ export default {
   }
 };
 </script>
+
+<style >
+#app {
+  overflow-y: hidden;
+}
+</style>

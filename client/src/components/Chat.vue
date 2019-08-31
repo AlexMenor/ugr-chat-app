@@ -9,12 +9,10 @@
             color="primary"
             dark
           >Estás hablando con "{{him.name}}"</v-toolbar>
-          <v-toolbar
-            v-if="partnerDisconected"
-            flat
-            color="grey"
-            dark
-          >"{{him.name}}" se ha desconectado</v-toolbar>
+          <v-toolbar v-if="partnerDisconected" flat color="grey" dark>
+            "{{him.name}}" se ha desconectado &nbsp;
+            <v-btn flat to="/">Volver al inicio</v-btn>
+          </v-toolbar>
           <app-chat-box :messages="messages"></app-chat-box>
           <v-container class="input-box">
             <v-row>
@@ -63,14 +61,16 @@ export default {
   },
   methods: {
     sendMsg() {
-      const message = {
-        msg: this.newMsg,
-        timestamp: new Date().getTime()
-      };
-      this.newMsg = "";
-      socket.emit("message", { ...message, to: this.him.id }, () => {
-        this.messages.push({ ...message, isMine: true });
-      });
+      if (this.newMsg) {
+        const message = {
+          msg: this.newMsg,
+          timestamp: new Date().getTime()
+        };
+        this.newMsg = "";
+        socket.emit("message", { ...message, to: this.him.id }, () => {
+          this.messages.push({ ...message, isMine: true });
+        });
+      }
     }
   }
 };

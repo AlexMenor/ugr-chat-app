@@ -38,7 +38,7 @@ export default {
 
 <style>
 .chat-box {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 70%;
 }
 </style>
