@@ -1,4 +1,4 @@
-# UGR-CHAT-APP
+# UGR-CHAT-APP 💬
 
 ![ugr-chat-app home](https://i.postimg.cc/vTBvP2MF/Screen-Shot-2019-08-31-at-04-40-14.png)
 
@@ -22,7 +22,7 @@ I use [express](https://www.npmjs.com/package/express) to serve the frontend and
 
 ### Client
 
-Perhaps it's overkill but I like [vue](https://vuejs.org/) and [vuetify](https://vuejs.org/) to get things going on quickly.
+Perhaps it's overkill but I like [vue](https://vuejs.org/) and [vuetify](https://vuetifyjs.com/) to get things going on quickly.
 
 ## Test it
 
